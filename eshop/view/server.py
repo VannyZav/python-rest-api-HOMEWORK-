@@ -2,7 +2,9 @@ from flask import Flask, request
 from marshmallow import ValidationError
 
 from eshop.businsess_logic.order_usecases import order_create, order_get_many, order_get_by_id
+from eshop.businsess_logic.product_usecases import product_create, product_get_by_id, product_get_many
 from eshop.view.order_schemas import OrderCreateDtoSchema, OrderSchema, OrderGetManyParams
+from eshop.view.product_schemas import ProductGetManyParams, ProductSchema
 
 app = Flask(__name__)
 
@@ -51,6 +53,49 @@ def order_get_by_id_endpoint(id):
         }, 404
 
     return OrderSchema().dump(order)
+
+
+@app.post("/api/v1/product")
+def product_create_endpoint():
+    try:
+        product_create_dto = ProductSchema().load(request.json)
+    except ValidationError as err:
+        return err.messages, 400
+
+    try:
+        product = product_create(dto=product_create_dto)
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
+
+    return ProductSchema().dump(product)
+
+
+@app.get("/api/v1/product/<id>")
+def product_get_by_id_endpoint(id):
+    product = product_get_by_id(id)
+
+    if product is None:
+        return {
+            "error": 'Not found'
+        }, 404
+
+    return str(product), 200
+
+
+@app.get("/api/v1/product")
+def product_get_many_endpoint():
+    try:
+        params = ProductGetManyParams().load(request.args)
+    except ValidationError as err:
+        return err.messages, 400
+
+    page = params.get("page")
+    limit = params.get("limit")
+
+    product = product_get_many(page, limit)
+    return product
 
 
 def run_server():
