@@ -15,13 +15,12 @@ d. написать в readme.md инструкцию, в ней должно б
 — как получить продукт по id.<br/>
 
 # для развертывание проекта выполните следующие команды:
-1. склонируйте репозиторий к себе на компьютер или скачайте проект zip файлом.
-   - git clone https://github.com/VannyZav/python-rest-api-HOMEWORK-.git
-2. создайте виртуальное окружение:
+1. склонируйте репозиторий к себе на компьютер или скачайте проект zip файлом.<br/>
+   git clone https://github.com/VannyZav/python-rest-api-HOMEWORK-.git
+2. создайте виртуальное окружение:<br/>
    python -m venv myenv<br/>
    source myenv/bin/activate  # для Linux и macOS<br/>
    myenv\Scripts\activate     # для Windows<br/>
-   pip install -r requirements.txt<br/>
    где myenv — это название вашего виртуального окружения.<br/>
 3. установите зависимости pip install -r requirements.txt
 4. в консоли зайдите в папку проекта и оттуда запустите приложение командой >> python main.py 
